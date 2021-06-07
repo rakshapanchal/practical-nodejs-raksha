@@ -1,5 +1,6 @@
 import * as dotenv from "dotenv";
 import { Sequelize } from "sequelize";
+import { Constants } from "./config/constants";
 import { Log } from "./helpers/logger";
 
 dotenv.config();
@@ -26,7 +27,7 @@ export class Connection {
                 idle: +process.env.DB_IDLE_CONNECTION_LIMIT || 10000,
             },
             logging: false,
-            // timezone: Constants.TIMEZONE,
+            timezone: Constants.TIMEZONE,
             dialectOptions: {
                 multipleStatements: true,
             },

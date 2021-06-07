@@ -5,8 +5,8 @@ import { NoteUtils } from "./noteUtils";
 export class NoteMiddleware {
     private noteUtils: NoteUtils = new NoteUtils();
 
-    /** this function should be check note id exists
-     * 
+    /** 
+     * this function should be check note id exists
      * @param req request object
      * @param res response object
      * @param next 

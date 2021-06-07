@@ -7,7 +7,7 @@ export class ResponseBuilder {
   public static successMessage(msg?: string): ResponseBuilder {
     const rb: ResponseBuilder = new ResponseBuilder();
     rb.code = Constants.SUCCESS_CODE;
-    rb.msg = msg;
+    rb.message = msg;
     return rb;
   }
 
@@ -36,15 +36,15 @@ export class ResponseBuilder {
     const rb: ResponseBuilder = new ResponseBuilder();
     rb.code = Constants.SUCCESS_CODE;
     rb.data = result;
-    rb.msg = msg;
+    rb.message = msg;
     return rb;
   }
 
-  public static newCreatedData(result: any, msg?: string): ResponseBuilder {
+  public static newCreatedData(msg?: string, result?: any): ResponseBuilder {
     const rb: ResponseBuilder = new ResponseBuilder();
     rb.code = Constants.CREATED_SUCCESS_CODE;
+    rb.message = msg;
     rb.data = result;
-    rb.msg = msg;
     return rb;
   }
 
@@ -72,7 +72,7 @@ export class ResponseBuilder {
     return rb;
   }
   public code: number;
-  public msg: string;
+  public message: string;
   public error: string;
   public data: any;
   public description: string;

@@ -69,8 +69,8 @@ export class NoteUtils {
     const where: any = { userId };
     if (search) {
       where.title = {
-        [Op.iLike]: `%${search}%`,
-      };
+        [Op.like]: `%${search}%`
+      }
     }
     const sequelizeObj: any = {
       where: {

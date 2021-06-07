@@ -13,6 +13,7 @@ import { Log } from "./helpers/logger";
 import { Routes } from "./routes";
 import { SendEmail } from "./helpers/sendEmail";
 import { Constants } from "./config/constants";
+import * as trimRequest from "trim-request";
 const swaggerUi = require('swagger-ui-express');
 
 
@@ -64,6 +65,7 @@ export class App {
     });
     this.app.use(bodyParser.json({ type: "application/vnd.api+json" })); // parse application/vnd.api+json as json
     this.app.use(methodOverride());
+    this.app.use(trimRequest.all);
     const routes = new Routes(NODE_ENV);
     var options = {
       customCss: '.swagger-ui .topbar { display: none }'

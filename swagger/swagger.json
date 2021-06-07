@@ -8,7 +8,6 @@
   "basePath": "/api",
   "consumes": ["application/json", "application/x-www-form-urlencoded"],
   "produces": ["application/json"],
-  "Access-Control-Allow-Headers": ["Content-Type", "Authorization"],
   "schemes": ["http"],
   "tags": [
     {
@@ -186,7 +185,7 @@
       },
       "get": {
         "tags": ["note"],
-        "summary": "get note List bt users.",
+        "summary": "get note List by user.",
         "parameters": [
           {
             "name": "x-auth-token",
@@ -199,6 +198,20 @@
             "name": "search",
             "in": "query",
             "description": "search of note which you want to search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "pages of note which you want ro search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "page limit",
             "required": false,
             "type": "string"
           },
@@ -261,7 +274,7 @@
             "in": "path",
             "description": "Id of particular note",
             "required": true,
-            "type": "Integer"
+            "type": "integer"
           },
           {
             "in": "body",
@@ -325,7 +338,7 @@
             "in": "path",
             "description": "Id of particular note",
             "required": true,
-            "type": "Integer"
+            "type": "integer"
           }
         ],
         "responses": {
@@ -371,7 +384,7 @@
             "in": "path",
             "description": "Id of particular note",
             "required": true,
-            "type": "Integer"
+            "type": "integer"
           }
         ],
         "responses": {
@@ -406,28 +419,31 @@
     "errorMessage": {
       "type": "object",
       "properties": {
-        "error": {
-          "type": "string"
-        },
         "code": {
           "type": "integer"
+        },
+        "error": {
+          "type": "string"
         }
       }
     },
     "SuccessMessage": {
       "type": "object",
       "properties": {
-        "message": {
-          "type": "string"
-        },
         "code": {
           "type": "integer"
+        },
+        "message": {
+          "type": "string"
         }
       }
     },
     "LoginSuccessData": {
       "type": "object",
       "properties": {
+        "code": {
+          "type": "integer"
+        },
         "message": {
           "type": "string"
         },
@@ -447,29 +463,68 @@
               "type": "string"
             }
           }
-        },
+        }
+      }
+    },
+    "SuccessData": {
+      "type": "object",
+      "properties": {
         "code": {
           "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "noteId": {
+              "type": "integer"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "isActive": {
+              "type": "integer"
+            },
+            "createdAt": {
+              "type": "string"
+            }
+          }
         }
       }
     },
     "NoteListData": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "noteId": {
-            "type": "integer"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string"
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "noteId": {
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "string"
+              }
+            }
           }
+        },
+        "totalCount": {
+          "type": "integer"
         }
       }
     }
