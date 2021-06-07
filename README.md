@@ -1,4 +1,4 @@
-# solutionanalysts-nodejs-raksha API
+# practical-nodejs-raksha API
 
 This project based on register user and user create new note and view list of notes.
 
@@ -39,8 +39,8 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
 ## Install
 
-    $ git clone https://github.com/rakshapanchalsa/solutionanalysts-nodejs-raksha.git
-    $ cd solutionanalysts-nodejs-raksha
+    $ git clone https://github.com/rakshapanchal/practical-nodejs-raksha.git
+    $ cd practical-nodejs-raksha
     $ npm install
 
 ## Running the project
