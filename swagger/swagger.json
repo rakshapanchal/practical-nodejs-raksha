@@ -1,0 +1,477 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Node-Practical",
+    "version": "1.0.0"
+  },
+  "host": "127.0.0.1:4000",
+  "basePath": "/api",
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "Access-Control-Allow-Headers": ["Content-Type", "Authorization"],
+  "schemes": ["http"],
+  "tags": [
+    {
+      "name": "authentication",
+      "description": "auth api"
+    },
+    {
+      "name": "note",
+      "description": "notes api"
+    }
+  ],
+  "paths": {
+    "/auth/sign-up": {
+      "post": {
+        "tags": ["authentication"],
+        "summary": "Registering new user.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "register in body.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["email", "password", "name"],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string",
+                  "format": "One capital letter,small letter,special char and one number is required.Length lies between 6 to 16"
+                },
+                "mobileNumber": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Account created successfully",
+            "schema": {
+              "$ref": "#/definitions/SuccessMessage"
+            }
+          },
+          "400": {
+            "description": "Erorr message",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["authentication"],
+        "summary": "Authenticating user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "login user.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["email", "password"],
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successfully",
+            "schema": {
+              "$ref": "#/definitions/LoginSuccessData"
+            }
+          },
+          "400": {
+            "description": "Erorr message",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "404": {
+            "description": "Error message",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          }
+        }
+      }
+    },
+    "/note": {
+      "post": {
+        "tags": ["note"],
+        "summary": "Creating new note.",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token for validation.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "note",
+            "description": "register note in body.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["title", "description"],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Note created successfully",
+            "schema": {
+              "$ref": "#/definitions/SuccessMessage"
+            }
+          },
+          "400": {
+            "description": "Erorr message",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "401": {
+            "description": "You are unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["note"],
+        "summary": "get note List bt users.",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token for validation.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "search of note which you want to search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "sort of field note which you want to sort",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "sort order of note which you want to sort by orders",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/NoteListData"
+            }
+          },
+          "400": {
+            "description": "Erorr message",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "401": {
+            "description": "You are unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          }
+        }
+      }
+    },
+    "/note/{id}": {
+      "put": {
+        "tags": ["note"],
+        "summary": "Update particular note request.",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token for validation.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of particular note",
+            "required": true,
+            "type": "Integer"
+          },
+          {
+            "in": "body",
+            "name": "note",
+            "description": "update note detail in body.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["title", "description"],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Note updated successfully",
+            "schema": {
+              "$ref": "#/definitions/SuccessMessage"
+            }
+          },
+          "400": {
+            "description": "Erorr message",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "401": {
+            "description": "You are unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["note"],
+        "summary": "Delete a particular note.",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token for validation.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of particular note",
+            "required": true,
+            "type": "Integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Note deleted successfully",
+            "schema": {
+              "$ref": "#/definitions/SuccessMessage"
+            }
+          },
+          "400": {
+            "description": "Erorr message",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "401": {
+            "description": "You are unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["note"],
+        "summary": "get note detail.",
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "description": "token for validation.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of particular note",
+            "required": true,
+            "type": "Integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/SuccessData"
+            }
+          },
+          "400": {
+            "description": "Erorr message",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "401": {
+            "description": "You are unauthorized",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/errorMessage"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "errorMessage": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer"
+        }
+      }
+    },
+    "SuccessMessage": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer"
+        }
+      }
+    },
+    "LoginSuccessData": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "integer"
+            },
+            "email": {
+              "type": "string"
+            },
+            "token": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        },
+        "code": {
+          "type": "integer"
+        }
+      }
+    },
+    "NoteListData": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "noteId": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
